@@ -38,15 +38,8 @@ ipcMain.on("process-file", (event, paths) => {
   const process = spawn(command, [], {
     shell: true,
     windowsHide: false,
-    stdio: ["inherit", "pipe", "pipe"],
-  });
-
-  process.stdout.on("data", (data) => {
-    console.log(data.toString());
-  });
-
-  process.stderr.on("data", (data) => {
-    console.error(data.toString());
+    stdio: "inherit",
+    detached: true,
   });
 
   console.log("5. After exec call");
