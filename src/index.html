@@ -13,10 +13,6 @@
     <div id="selectedFile" style="margin-top: 20px; word-wrap: break-word">
       No file selected
     </div>
-    <div id="selectedFile" style="margin-top: 20px; word-wrap: break-word">
-      No file selected
-    </div>
-    <div id="status" style="margin-top: 10px; color: blue"></div>
 
     <script>
       let selectedFilePaths = null;
@@ -39,7 +35,6 @@
 
       function processFile() {
         if (selectedFilePaths) {
-          document.getElementById("status").textContent = "Transcribing...";
           window.electron.ipcRenderer.send("process-file", selectedFilePaths);
         }
       }
