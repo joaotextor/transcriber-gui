@@ -1,5 +1,6 @@
 {
-  "name": "transcriber-gui",
+  "name": "transcriber",
+  "productName": "Transcrever Áudio e Vídeo",
   "version": "1.0.0",
   "main": "src/main.js",
   "scripts": {
@@ -15,7 +16,7 @@
     "electron-builder": "^25.1.8"
   },
   "build": {
-    "appId": "com.your-app-name",
+    "appId": "com.joaotextor.transcriber",
     "win": {
       "target": "nsis",
       "icon": "assets/icon.png"
@@ -26,6 +27,7 @@
     ]
   },
   "dependencies": {
+    "ini": "^5.0.0",
     "path": "^0.12.7"
   }
 }
