@@ -23,7 +23,11 @@
     },
     "files": [
       "src/**/*",
-      "node_modules/**/*"
+      "src/config/**/*",
+      "src/services/**/*",
+      "src/utils/**/*",
+      "node_modules/**/*",
+      "config.ini"
     ]
   },
   "dependencies": {

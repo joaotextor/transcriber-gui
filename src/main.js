@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
-const { exec, spawn } = require("child_process");
 const path = require("node:path");
+const { transcribeFile } = require("./services/whisperService");
 
 if (process.platform === "win32") {
   process.env.LANG = "en_US.UTF-8";
@@ -29,20 +29,8 @@ function createWindow() {
 app.whenReady().then(createWindow);
 
 ipcMain.on("process-file", (event, paths) => {
-  console.log("1. Process file triggered");
   const { filePath, directoryPath } = paths;
-
-  const command = `faster-whisper-xxl.exe "${filePath}" -l Portuguese --output_format txt --output_dir "${directoryPath}"`;
-  console.log("2. Command to execute:", command);
-
-  const process = spawn(command, [], {
-    shell: true,
-    windowsHide: false,
-    stdio: "inherit",
-    detached: true,
-  });
-
-  console.log("5. After exec call");
+  transcribeFile(filePath, directoryPath);
 });
 
 ipcMain.handle("show-open-dialog", async () => {
@@ -80,6 +68,7 @@ ipcMain.handle("show-open-dialog", async () => {
   }
   return null;
 });
+
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
