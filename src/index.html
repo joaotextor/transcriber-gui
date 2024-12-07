@@ -2,20 +2,58 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Electron Media Selector</title>
+    <title>Transcrever Áudio e Video</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Select a Media File</h1>
-    <button onclick="handleFile()">Select File</button>
-    <button onclick="processFile()" id="processBtn" disabled>
-      Process File
-    </button>
-    <div id="selectedFile" style="margin-top: 20px; word-wrap: break-word">
-      No file selected
-    </div>
+    <main class="container">
+      <h1>Selecione um Arquivo de Mídia</h1>
+      <div class="buttons">
+        <button onclick="handleFile()" class="defaultBtn">
+          Selecionar arquivo
+          <span style="display: block; font-size: 14px">(Ctrl+Alt+A)</span>
+        </button>
+        <button
+          onclick="processFile()"
+          class="defaultBtn"
+          id="processBtn"
+          disabled
+        >
+          Transcrever
+          <span style="display: block; font-size: 14px">(Ctrl+Alt+D)</span>
+        </button>
+      </div>
+      <div id="selectedFile" style="margin-top: 20px; word-wrap: break-word">
+        Nenhum arquivo selecionado...
+      </div>
+    </main>
 
     <script>
       let selectedFilePaths = null;
+
+      document.addEventListener("keydown", (event) => {
+        // Check for both 'a' and 'á' for file selection
+        if (
+          event.ctrlKey &&
+          event.altKey &&
+          (event.key === "a" || event.key === "á")
+        ) {
+          event.preventDefault();
+          handleFile();
+        }
+
+        // Check for both 'd' and 'ð' for transcribe
+        if (
+          event.ctrlKey &&
+          event.altKey &&
+          (event.key === "d" || event.key === "ð")
+        ) {
+          event.preventDefault();
+          if (!document.getElementById("processBtn").disabled) {
+            processFile();
+          }
+        }
+      });
 
       async function handleFile() {
         try {
@@ -25,11 +63,11 @@
             document.getElementById("processBtn").disabled = false;
             document.getElementById(
               "selectedFile"
-            ).textContent = `Selected file: ${result.filePath}`;
+            ).textContent = `Arquivo selecionado: ${result.filePath}`;
           }
         } catch (error) {
-          console.error("Error:", error);
-          alert("Error selecting file: " + error.message);
+          console.error("Erro:", error);
+          alert("Erro ao selecionar arquivo: " + error.message);
         }
       }
 

@@ -9,17 +9,16 @@ if (process.platform === "win32") {
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 600,
+    height: 300,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: false, // Add this line
+      sandbox: false,
     },
   });
 
-  win.webContents.openDevTools(); // For debugging
   win.webContents.on("did-fail-load", (event, errorCode, errorDescription) => {
     console.error("Failed to load:", errorDescription);
   });
@@ -49,7 +48,25 @@ ipcMain.handle("show-open-dialog", async () => {
   const result = await dialog.showOpenDialog({
     properties: ["openFile"],
     filters: [
-      { name: "Media Files", extensions: ["mp3", "wav", "mp4", "avi", "mov"] },
+      {
+        name: "Media Files",
+        extensions: [
+          "mp3",
+          "wav",
+          "mp4",
+          "avi",
+          "mov",
+          "m4a",
+          "mkv",
+          "flv",
+          "wmv",
+          "ogg",
+          "webm",
+          "aac",
+          "wma",
+          "flac",
+        ],
+      },
     ],
   });
 
@@ -62,7 +79,6 @@ ipcMain.handle("show-open-dialog", async () => {
   }
   return null;
 });
-
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
