@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("node:path");
 const { transcribeFile } = require("./services/whisperService");
+const { ensureConfigFile } = require("./config/configManager");
 
 if (process.platform === "win32") {
   process.env.LANG = "en_US.UTF-8";
@@ -19,14 +20,17 @@ function createWindow() {
       sandbox: false,
     },
   });
-
+  win.removeMenu();
   win.webContents.on("did-fail-load", (event, errorCode, errorDescription) => {
     console.error("Failed to load:", errorDescription);
   });
   win.loadFile("src/index.html");
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  ensureConfigFile();
+  createWindow();
+});
 
 ipcMain.on("process-file", (event, paths) => {
   const { filePath, directoryPath } = paths;

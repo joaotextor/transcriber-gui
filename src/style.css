@@ -29,3 +29,23 @@
   align-items: center;
   margin-top: 20px;
 }
+
+.footer {
+  position: fixed;
+  font-weight: 400;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  padding: 3px;
+  text-align: center;
+}
+
+.footer a {
+  color: #3690f0;
+  text-decoration: none;
+}
+.footer a:hover {
+  text-decoration: underline;
+}

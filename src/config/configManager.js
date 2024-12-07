@@ -1,23 +1,42 @@
 const path = require("node:path");
 const fs = require("fs");
 const ini = require("ini");
-const { dialog } = require("electron");
+const { dialog, app } = require("electron");
+
+function getConfigPath() {
+  return app.isPackaged
+    ? path.join(app.getPath("exe"), "..", "config.ini")
+    : path.join(__dirname, "..", "..", "config.ini");
+}
+
+function ensureConfigFile() {
+  const configPath = getConfigPath();
+  if (!fs.existsSync(configPath)) {
+    const defaultConfig = `[Paths]
+whisper_exe=C:\\path\\to\\faster-whisper-xxl`;
+    try {
+      fs.writeFileSync(configPath, defaultConfig, "utf8");
+    } catch (err) {
+      console.error("Falha ao criar arquivo de configuração:", err);
+    }
+  }
+}
 
 function getWhisperPath() {
   try {
-    const configPath = path.join(__dirname, "..", "..", "config.ini");
+    const configPath = getConfigPath();
     const config = ini.parse(fs.readFileSync(configPath, "utf-8"));
     const whisperPath = config.Paths.whisper_exe;
 
     if (!fs.existsSync(whisperPath)) {
-      throw new Error(`Executable not found at: ${whisperPath}`);
+      throw new Error(`Executável não encontrado em: ${whisperPath}`);
     }
 
     return whisperPath;
   } catch (error) {
     dialog.showErrorBox(
-      "Configuration Error",
-      `Error with whisper executable: ${error.message}\nPlease check the path in config.ini`
+      "Erro de Configuração",
+      `Executável do Whisper não encontrado: ${error.message}\nVerifique o caminho do arquivo config.ini`
     );
     return null;
   }
@@ -25,4 +44,5 @@ function getWhisperPath() {
 
 module.exports = {
   getWhisperPath,
+  ensureConfigFile,
 };
