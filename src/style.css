@@ -9,8 +9,16 @@
   transition: background-color 0.3s ease;
 }
 
+#cancelBtn {
+  margin-top: 10px;
+}
+
 .defaultBtn:hover {
   background-color: #0056b3;
+}
+.defaultBtn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .container {
@@ -48,4 +56,16 @@
 }
 .footer a:hover {
   text-decoration: underline;
+}
+
+#terminal {
+  background-color: black;
+  color: white;
+  font-family: monospace;
+  margin-top: 10px;
+  margin-inline: 10px;
+  padding: 10px;
+  height: 200px;
+  width: 99%;
+  overflow-y: auto;
 }

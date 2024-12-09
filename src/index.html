@@ -26,6 +26,16 @@
       <div id="selectedFile" style="margin-top: 20px; word-wrap: break-word">
         Nenhum arquivo selecionado...
       </div>
+      <div id="terminal"></div>
+      <button
+        onclick="cancelTranscription()"
+        class="defaultBtn"
+        id="cancelBtn"
+        disabled
+      >
+        Cancelar
+        <span style="display: block; font-size: 14px">(Ctrl+Alt+C)</span>
+      </button>
       <footer class="footer">
         Desenvolvido por
         <a href="https://github.com/joaotextor/" target="_blank">João Textor</a>
@@ -34,6 +44,19 @@
 
     <script>
       let selectedFilePaths = null;
+
+      const terminal = document.getElementById("terminal");
+
+      window.electron.onWhisperOutput((event, data) => {
+        terminal.innerHTML += data.replace(/\n/g, "<br>");
+        terminal.scrollTop = terminal.scrollHeight;
+      });
+
+      window.electron.onWhisperComplete((event, code) => {
+        const message =
+          code === 0 ? "Transcrição Completada" : "Transcrição Cancelada";
+        terminal.innerHTML += `<br>${message}<br>`;
+      });
 
       document.addEventListener("keydown", (event) => {
         // Check for both 'a' and 'á' for file selection
@@ -57,6 +80,13 @@
             processFile();
           }
         }
+
+        if (event.ctrlKey && event.altKey && event.key === "c") {
+          event.preventDefault();
+          if (!document.getElementById("cancelBtn").disabled) {
+            cancelTranscription();
+          }
+        }
       });
 
       async function handleFile() {
@@ -76,8 +106,17 @@
 
       function processFile() {
         if (selectedFilePaths) {
+          document.getElementById("cancelBtn").disabled = false;
+          document.getElementById("processBtn").disabled = true;
           window.electron.ipcRenderer.send("process-file", selectedFilePaths);
         }
+      }
+
+      function cancelTranscription() {
+        console.log("Cancel button clicked");
+        window.electron.ipcRenderer.send("cancel-transcription");
+        document.getElementById("cancelBtn").disabled = true;
+        document.getElementById("processBtn").disabled = false;
       }
     </script>
   </body>

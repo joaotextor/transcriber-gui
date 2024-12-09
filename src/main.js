@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("node:path");
-const { transcribeFile } = require("./services/whisperService");
+const whisperService = require("./services/whisperService");
 const { ensureConfigFile } = require("./config/configManager");
 
 if (process.platform === "win32") {
@@ -11,8 +11,8 @@ if (process.platform === "win32") {
 function createWindow() {
   const win = new BrowserWindow({
     width: 600,
-    height: 300,
-    resizable: false,
+    height: 600,
+    resizable: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
@@ -20,7 +20,7 @@ function createWindow() {
       sandbox: false,
     },
   });
-  win.removeMenu();
+  // win.removeMenu();
   win.webContents.on("did-fail-load", (event, errorCode, errorDescription) => {
     console.error("Failed to load:", errorDescription);
   });
@@ -34,7 +34,13 @@ app.whenReady().then(() => {
 
 ipcMain.on("process-file", (event, paths) => {
   const { filePath, directoryPath } = paths;
-  transcribeFile(filePath, directoryPath);
+  const window = BrowserWindow.getFocusedWindow();
+  whisperService.transcribeFile(filePath, directoryPath, window);
+});
+
+ipcMain.on("cancel-transcription", () => {
+  console.log("Cancellation requested");
+  whisperService.cancelTranscription();
 });
 
 ipcMain.handle("show-open-dialog", async () => {
