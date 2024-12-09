@@ -1,0 +1,13 @@
+{
+  "error": "Error",
+  "title": "Audio and Video Transcriber",
+  "subtitle": "Graphic interface to use with faster-whisper-xxl",
+  "selectFile": "Select File",
+  "transcribe": "Transcribe",
+  "cancel": "Cancel",
+  "noFileSelected": "No file selected...",
+  "fileSelected": "Selected file",
+  "developedBy": "Developed by",
+  "transcriptionCompleted": "Transcription Completed!",
+  "transcriptionCanceled": "Transcription Canceled!"
+}

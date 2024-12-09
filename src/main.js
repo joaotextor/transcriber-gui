@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("node:path");
 const whisperService = require("./services/whisperService");
+const languageService = require("./services/languageService");
 const { ensureConfigFile } = require("./config/configManager");
 
 if (process.platform === "win32") {
@@ -11,7 +12,7 @@ if (process.platform === "win32") {
 function createWindow() {
   const win = new BrowserWindow({
     width: 600,
-    height: 600,
+    height: 800,
     resizable: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -20,7 +21,7 @@ function createWindow() {
       sandbox: false,
     },
   });
-  // win.removeMenu();
+  win.removeMenu();
   win.webContents.on("did-fail-load", (event, errorCode, errorDescription) => {
     console.error("Failed to load:", errorDescription);
   });
@@ -39,7 +40,6 @@ ipcMain.on("process-file", (event, paths) => {
 });
 
 ipcMain.on("cancel-transcription", () => {
-  console.log("Cancellation requested");
   whisperService.cancelTranscription();
 });
 
@@ -77,6 +77,16 @@ ipcMain.handle("show-open-dialog", async () => {
     };
   }
   return null;
+});
+
+// Translations
+
+ipcMain.handle("set-language", async (event, lang) => {
+  return languageService.setLanguage(lang);
+});
+
+ipcMain.handle("get-translations", async () => {
+  return languageService.getCurrentTranslations();
 });
 
 app.on("window-all-closed", () => {

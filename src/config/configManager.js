@@ -17,7 +17,7 @@ whisper_exe=C:\\path\\to\\faster-whisper-xxl`;
     try {
       fs.writeFileSync(configPath, defaultConfig, "utf8");
     } catch (err) {
-      console.error("Falha ao criar arquivo de configuração:", err);
+      console.error("Failed to create configuration file:", err);
     }
   }
 }
@@ -29,14 +29,14 @@ function getWhisperPath() {
     const whisperPath = config.Paths.whisper_exe;
 
     if (!fs.existsSync(whisperPath)) {
-      throw new Error(`Executável não encontrado em: ${whisperPath}`);
+      throw new Error(`Executable not found at: ${whisperPath}`);
     }
 
     return whisperPath;
   } catch (error) {
     dialog.showErrorBox(
-      "Erro de Configuração",
-      `Executável do Whisper não encontrado: ${error.message}\nVerifique o caminho do arquivo config.ini`
+      "Configuration Error",
+      `Whisper executable not found: ${error.message}\nCheck the path on config.ini file`
     );
     return null;
   }

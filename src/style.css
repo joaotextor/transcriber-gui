@@ -1,3 +1,14 @@
+h1,
+h2 {
+  margin-block: 2px;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
 .defaultBtn {
   background-color: #007bff;
   color: #fff;
@@ -68,4 +79,15 @@
   height: 200px;
   width: 99%;
   overflow-y: auto;
+}
+
+#languageSelect {
+  align-self: flex-start;
+  margin-bottom: 20px;
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
 }

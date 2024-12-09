@@ -7,9 +7,14 @@
   </head>
   <body>
     <main class="container">
-      <h1>Selecione um Arquivo de Mídia</h1>
+      <select id="languageSelect" onchange="changeLanguage(this.value)">
+        <option value="pt">Português</option>
+        <option value="en">English</option>
+      </select>
+      <h1>Transcrever Áudio e Vídeo</h1>
+      <h2>Interface gráfica para uso com faster-whisper-xxl</h2>
       <div class="buttons">
-        <button onclick="handleFile()" class="defaultBtn">
+        <button id="selectFileBtn" onclick="handleFile()" class="defaultBtn">
           Selecionar arquivo
           <span style="display: block; font-size: 14px">(Ctrl+Alt+A)</span>
         </button>
@@ -44,8 +49,52 @@
 
     <script>
       let selectedFilePaths = null;
+      let fileSelectedLabel = "Arquivo selecionado";
+      let errorLabel = "Erro";
+      let transcriptionCompletedText = "Transcrição concluída!";
+      let transcriptionCanceledText = "Transcrição cancelada!";
 
       const terminal = document.getElementById("terminal");
+
+      async function loadTranslations() {
+        const translations = await window.electron.getCurrentTranslations();
+        updatePageText(translations);
+      }
+
+      async function changeLanguage(lang) {
+        const translations = await window.electron.setLanguage(lang);
+        updatePageText(translations);
+      }
+
+      function updatePageText(translations) {
+        // Labels
+        document.title = translations.title;
+
+        document.querySelector("h1").textContent = translations.title;
+        document.querySelector("h2").textContent = translations.subtitle;
+        document.querySelector("#selectedFile").textContent =
+          translations.noFileSelected;
+
+        // Buttons
+        document.querySelector(
+          "#selectFileBtn"
+        ).innerHTML = `${translations.selectFile} <span style="display: block; font-size: 14px">(Ctrl+Alt+A)</span>`;
+        document.querySelector(
+          "#processBtn"
+        ).innerHTML = `${translations.transcribe} <span style="display: block; font-size: 14px">(Ctrl+Alt+D)</span>`;
+        document.querySelector(
+          "#cancelBtn"
+        ).innerHTML = `${translations.cancel} <span style="display: block; font-size: 14px">(Ctrl+Alt+C)</span>`;
+
+        // Dynamic text
+        fileSelectedLabel = translations.fileSelected;
+        errorLabel = translations.error;
+        transcriptionCompletedText = translations.transcriptionCompleted;
+        transcriptionCanceledText = translations.transcriptionCanceled;
+      }
+
+      // Call this when page loads
+      document.addEventListener("DOMContentLoaded", loadTranslations);
 
       window.electron.onWhisperOutput((event, data) => {
         terminal.innerHTML += data.replace(/\n/g, "<br>");
@@ -54,7 +103,7 @@
 
       window.electron.onWhisperComplete((event, code) => {
         const message =
-          code === 0 ? "Transcrição Completada" : "Transcrição Cancelada";
+          code === 0 ? transcriptionCompletedText : transcriptionCanceledText;
         terminal.innerHTML += `<br>${message}<br>`;
       });
 
@@ -97,10 +146,10 @@
             document.getElementById("processBtn").disabled = false;
             document.getElementById(
               "selectedFile"
-            ).textContent = `Arquivo selecionado: ${result.filePath}`;
+            ).textContent = `${fileSelectedLabel}: ${result.filePath}`;
           }
         } catch (error) {
-          console.error("Erro:", error);
+          console.error(`${errorLabel}:`, error);
         }
       }
 
@@ -113,7 +162,6 @@
       }
 
       function cancelTranscription() {
-        console.log("Cancel button clicked");
         window.electron.ipcRenderer.send("cancel-transcription");
         document.getElementById("cancelBtn").disabled = true;
         document.getElementById("processBtn").disabled = false;
