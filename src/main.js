@@ -2,7 +2,11 @@ const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("node:path");
 const whisperService = require("./services/whisperService");
 const languageService = require("./services/languageService");
-const { ensureConfigFile } = require("./config/configManager");
+const {
+  ensureConfigFile,
+  updateWhisperPath,
+  checkWhisperExists,
+} = require("./config/configManager");
 
 if (process.platform === "win32") {
   process.env.LANG = "en_US.UTF-8";
@@ -77,6 +81,39 @@ ipcMain.handle("show-open-dialog", async () => {
     };
   }
   return null;
+});
+
+// Check whisper
+
+ipcMain.handle("check-whisper-exists", async () => {
+  return checkWhisperExists();
+});
+
+ipcMain.handle("select-whisper-exe", async () => {
+  async function showDialog() {
+    const result = await dialog.showOpenDialog({
+      properties: ["openFile"],
+      filters: [{ name: "Faster Whisper XXL", extensions: ["exe"] }],
+    });
+
+    if (!result.canceled && result.filePaths.length > 0) {
+      const selectedPath = result.filePaths[0];
+      if (
+        path.basename(selectedPath).toLowerCase() !== "faster-whisper-xxl.exe"
+      ) {
+        await dialog.showErrorBox(
+          "Invalid File",
+          "Please select faster-whisper-xxl.exe"
+        );
+        return showDialog(); // Recursively show dialog again
+      }
+      updateWhisperPath(selectedPath);
+      return true;
+    }
+    return false;
+  }
+
+  return showDialog();
 });
 
 // Translations

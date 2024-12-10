@@ -6,6 +6,11 @@ contextBridge.exposeInMainWorld("electron", {
   onWhisperComplete: (callback) => ipcRenderer.on("whisper-complete", callback),
   setLanguage: (lang) => ipcRenderer.invoke("set-language", lang),
   getCurrentTranslations: () => ipcRenderer.invoke("get-translations"),
+  checkWhisperExists: () => ipcRenderer.invoke("check-whisper-exists"),
+  selectWhisperExe: () => {
+    console.log("Preload: selectWhisperExe called");
+    return ipcRenderer.invoke("select-whisper-exe");
+  },
   ipcRenderer: {
     send: (channel, data) => {
       let validChannels = ["process-file", "cancel-transcription"];

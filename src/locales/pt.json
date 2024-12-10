@@ -10,5 +10,7 @@
   "developedBy": "Desenvolvido por",
   "transcriptionCompleted": "Transcrição concluída!",
   "transcriptionCanceled": "Transcrição cancelada!",
-  "cleanConsole": "Limpar Console"
+  "cleanConsole": "Limpar Console",
+  "whisperLoaded": "Whisper Carregado",
+  "whisperNotFound": "Whisper não encontrado!"
 }

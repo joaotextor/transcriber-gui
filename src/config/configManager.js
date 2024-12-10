@@ -42,7 +42,27 @@ function getWhisperPath() {
   }
 }
 
+function updateWhisperPath(newPath) {
+  const configPath = getConfigPath();
+  const config = ini.parse(fs.readFileSync(configPath, "utf-8"));
+  config.Paths.whisper_exe = newPath;
+  fs.writeFileSync(configPath, ini.stringify(config), "utf-8");
+}
+
+function checkWhisperExists() {
+  try {
+    const configPath = getConfigPath();
+    const config = ini.parse(fs.readFileSync(configPath, "utf-8"));
+    const whisperPath = config.Paths.whisper_exe;
+    return fs.existsSync(whisperPath);
+  } catch (error) {
+    return false;
+  }
+}
+
 module.exports = {
   getWhisperPath,
   ensureConfigFile,
+  updateWhisperPath,
+  checkWhisperExists,
 };

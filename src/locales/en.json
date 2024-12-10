@@ -10,5 +10,7 @@
   "developedBy": "Developed by",
   "transcriptionCompleted": "Transcription Completed!",
   "transcriptionCanceled": "Transcription Canceled!",
-  "cleanConsole": "Clean Console"
+  "cleanConsole": "Clean Console",
+  "whisperLoaded": "Whisper Loaded",
+  "whisperNotFound": "Whisper Not Found!"
 }

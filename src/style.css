@@ -35,7 +35,7 @@ h2 {
   align-items: center;
   justify-content: start;
   height: 100%;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
 }
 
 .buttons {
@@ -44,6 +44,25 @@ h2 {
   gap: 10px;
   align-items: center;
   margin-top: 20px;
+}
+
+.statusBtn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.statusBtn.not-found {
+  background-color: #dc3545;
+}
+
+.statusBtn.found {
+  background-color: #28a745;
+  cursor: not-allowed;
 }
 
 .footer {
@@ -80,11 +99,20 @@ h2 {
 
 #languageSelect {
   align-self: flex-start;
-  margin-bottom: 20px;
   padding: 5px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #fff;
   color: #333;
+}
+
+#headerWrapper {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 99%;
+  padding: 10px;
+  gap: 10px;
+  background-color: #ffffff;
 }

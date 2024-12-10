@@ -7,10 +7,15 @@
   </head>
   <body>
     <main class="container">
-      <select id="languageSelect">
-        <option value="pt">Português</option>
-        <option value="en">English</option>
-      </select>
+      <div id="headerWrapper">
+        <select id="languageSelect">
+          <option value="pt">Português</option>
+          <option value="en">English</option>
+        </select>
+        <button id="whisperStatusBtn" class="statusBtn">
+          Checking Whisper...
+        </button>
+      </div>
       <h1>Transcrever Áudio e Vídeo</h1>
       <h2>Interface gráfica para uso com faster-whisper-xxl</h2>
       <div class="buttons">

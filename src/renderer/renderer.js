@@ -1,6 +1,7 @@
 import {
   loadTranslations,
   bindLanguageSelector,
+  bindWhisperButton,
 } from "./components/translations.js";
 import {
   setupTerminalListeners,
@@ -16,4 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
   bindButtonEvents();
   bindLanguageSelector();
   bindCleanConsoleButton();
+  console.log("DOM loaded, binding button...");
+  bindWhisperButton();
 });
