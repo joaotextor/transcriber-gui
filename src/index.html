@@ -7,14 +7,14 @@
   </head>
   <body>
     <main class="container">
-      <select id="languageSelect" onchange="changeLanguage(this.value)">
+      <select id="languageSelect">
         <option value="pt">Português</option>
         <option value="en">English</option>
       </select>
       <h1>Transcrever Áudio e Vídeo</h1>
       <h2>Interface gráfica para uso com faster-whisper-xxl</h2>
       <div class="buttons">
-        <button id="selectFileBtn" onclick="handleFile()" class="defaultBtn">
+        <button id="selectFileBtn" class="defaultBtn">
           Selecionar arquivo
           <span style="display: block; font-size: 14px">(Ctrl+Alt+A)</span>
         </button>
@@ -32,20 +32,23 @@
         Nenhum arquivo selecionado...
       </div>
       <div id="terminal"></div>
-      <button
-        onclick="cancelTranscription()"
-        class="defaultBtn"
-        id="cancelBtn"
-        disabled
-      >
-        Cancelar
-        <span style="display: block; font-size: 14px">(Ctrl+Alt+C)</span>
-      </button>
+      <div class="buttons">
+        <button
+          onclick="cancelTranscription()"
+          class="defaultBtn"
+          id="cancelBtn"
+          disabled
+        >
+          Cancelar
+          <span style="display: block; font-size: 14px">(Ctrl+Alt+C)</span>
+        </button>
+        <button id="cleanConsoleBtn" class="defaultBtn">Limpar console</button>
+      </div>
       <footer class="footer">
         Desenvolvido por
         <a href="https://github.com/joaotextor/" target="_blank">João Textor</a>
       </footer>
     </main>
-    <script src="renderer/renderer.js"></script>
+    <script type="module" src="renderer/renderer.js"></script>
   </body>
 </html>

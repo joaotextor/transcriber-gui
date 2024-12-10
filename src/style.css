@@ -11,6 +11,7 @@ h2 {
 
 .defaultBtn {
   background-color: #007bff;
+  height: 55px;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -18,10 +19,6 @@ h2 {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
-}
-
-#cancelBtn {
-  margin-top: 10px;
 }
 
 .defaultBtn:hover {

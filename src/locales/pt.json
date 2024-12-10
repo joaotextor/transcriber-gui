@@ -9,5 +9,6 @@
   "fileSelected": "Arquivo selecionado",
   "developedBy": "Desenvolvido por",
   "transcriptionCompleted": "Transcrição concluída!",
-  "transcriptionCanceled": "Transcrição cancelada!"
+  "transcriptionCanceled": "Transcrição cancelada!",
+  "cleanConsole": "Limpar Console"
 }

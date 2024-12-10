@@ -9,5 +9,6 @@
   "fileSelected": "Selected file",
   "developedBy": "Developed by",
   "transcriptionCompleted": "Transcription Completed!",
-  "transcriptionCanceled": "Transcription Canceled!"
+  "transcriptionCanceled": "Transcription Canceled!",
+  "cleanConsole": "Clean Console"
 }

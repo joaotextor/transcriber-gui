@@ -21,7 +21,7 @@ function createWindow() {
       sandbox: false,
     },
   });
-  win.removeMenu();
+  // win.removeMenu();
   win.webContents.on("did-fail-load", (event, errorCode, errorDescription) => {
     console.error("Failed to load:", errorDescription);
   });
