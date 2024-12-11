@@ -1,7 +1,7 @@
 {
   "name": "transcriber",
   "productName": "Transcrever Áudio e Vídeo",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
