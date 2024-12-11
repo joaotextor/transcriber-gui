@@ -4,7 +4,7 @@ const whisperService = require("./services/whisperService");
 const languageService = require("./services/languageService");
 const {
   ensureConfigFile,
-  updateWhisperPath,
+  selectWhisperDialog,
   checkWhisperExists,
 } = require("./config/configManager");
 
@@ -90,30 +90,7 @@ ipcMain.handle("check-whisper-exists", async () => {
 });
 
 ipcMain.handle("select-whisper-exe", async () => {
-  async function showDialog() {
-    const result = await dialog.showOpenDialog({
-      properties: ["openFile"],
-      filters: [{ name: "Faster Whisper XXL", extensions: ["exe"] }],
-    });
-
-    if (!result.canceled && result.filePaths.length > 0) {
-      const selectedPath = result.filePaths[0];
-      if (
-        path.basename(selectedPath).toLowerCase() !== "faster-whisper-xxl.exe"
-      ) {
-        await dialog.showErrorBox(
-          "Invalid File",
-          "Please select faster-whisper-xxl.exe"
-        );
-        return showDialog(); // Recursively show dialog again
-      }
-      updateWhisperPath(selectedPath);
-      return true;
-    }
-    return false;
-  }
-
-  return showDialog();
+  return selectWhisperDialog();
 });
 
 // Translations

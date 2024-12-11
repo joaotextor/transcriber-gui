@@ -22,6 +22,29 @@ whisper_exe=C:\\path\\to\\faster-whisper-xxl`;
   }
 }
 
+async function selectWhisperDialog() {
+  const result = await dialog.showOpenDialog({
+    properties: ["openFile"],
+    filters: [{ name: "Faster Whisper XXL", extensions: ["exe"] }],
+  });
+
+  if (!result.canceled && result.filePaths.length > 0) {
+    const selectedPath = result.filePaths[0];
+    if (
+      path.basename(selectedPath).toLowerCase() !== "faster-whisper-xxl.exe"
+    ) {
+      await dialog.showErrorBox(
+        "Invalid File",
+        "Please select faster-whisper-xxl.exe"
+      );
+      return selectWhisperDialog(); // Recursively show dialog again
+    }
+    updateWhisperPath(selectedPath);
+    return true;
+  }
+  return false;
+}
+
 function getWhisperPath() {
   try {
     const configPath = getConfigPath();
@@ -65,4 +88,5 @@ module.exports = {
   ensureConfigFile,
   updateWhisperPath,
   checkWhisperExists,
+  selectWhisperDialog,
 };

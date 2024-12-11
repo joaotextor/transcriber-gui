@@ -80,7 +80,7 @@ function updatePageText(translations) {
   ).innerHTML = `${translations.cancel} <span style="display: block; font-size: 14px">(Ctrl+Alt+C)</span>`;
   document.querySelector(
     "#cleanConsoleBtn"
-  ).innerHTML = `${translations.cancel} <span style="display: block; font-size: 14px">(Ctrl+Alt+X)</span>`;
+  ).innerHTML = `${translations.clearConsole} <span style="display: block; font-size: 14px">(Ctrl+Alt+X)</span>`;
 
   fileSelectedLabel = translations.fileSelected;
   errorLabel = translations.error;
@@ -96,6 +96,7 @@ export {
   changeLanguage,
   bindLanguageSelector,
   fileSelectedLabel,
+  updateWhisperStatus,
   bindWhisperButton,
   errorLabel,
   transcriptionCompletedText,

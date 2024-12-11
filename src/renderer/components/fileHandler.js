@@ -1,6 +1,11 @@
-import { fileSelectedLabel, errorLabel } from "./translations.js";
+import {
+  fileSelectedLabel,
+  errorLabel,
+  updateWhisperStatus,
+} from "./translations.js";
 
 let selectedFilePaths = null;
+const whisperBtn = document.getElementById("whisperStatusBtn");
 
 async function handleFile(window) {
   try {
@@ -17,7 +22,12 @@ async function handleFile(window) {
   }
 }
 
-function processFile(window) {
+async function processFile(window) {
+  if (whisperBtn.classList.contains("not-found")) {
+    await window.electron.selectWhisperExe();
+    updateWhisperStatus();
+  }
+
   if (selectedFilePaths) {
     document.getElementById("cancelBtn").disabled = false;
     document.getElementById("processBtn").disabled = true;
